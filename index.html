@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Amorfoda - Bad Bunny</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Segoe UI', sans-serif;
-      background: url("fondo.jpg") no-repeat center center fixed;
+      background: url('fondo.jpg') no-repeat center center fixed;
       background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
       color: white;
       overflow: hidden;
+    }
+
+    #container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
     }
 
     #mensaje {
@@ -20,93 +27,70 @@
       top: 20px;
       width: 100%;
       text-align: center;
+      font-size: 1.5em;
       background: rgba(0, 0, 0, 0.5);
-      padding: 15px;
-      font-size: 1.3em;
-      z-index: 10;
+      padding: 10px;
     }
 
     #letra {
       position: absolute;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80%;
-      max-width: 800px;
-      font-size: 1.5em;
-      line-height: 1.8em;
+      bottom: -100%;
+      width: 100%;
       text-align: center;
-      background-color: rgba(0,0,0,0.4);
+      font-size: 1.2em;
+      line-height: 2em;
       padding: 20px;
-      border-radius: 20px;
-      overflow-y: auto;
-      height: 70%;
+      background: rgba(0, 0, 0, 0.4);
+      animation: scrollLetra 85s linear forwards;
     }
 
-    .linea {
-      transition: color 0.3s ease;
-      color: #aaa;
+    @keyframes scrollLetra {
+      from { bottom: -100%; }
+      to { bottom: 100%; }
     }
 
-    .linea.activa {
-      color: #ff6b81;
-      font-weight: bold;
+    p {
+      margin: 0;
     }
   </style>
 </head>
 <body onclick="iniciar()">
-  <div id="mensaje">Haz clic para comenzar 🎵</div>
-  <div id="letra">
-    <!-- Cada línea tiene su tiempo de inicio (en segundos) -->
-    <p class="linea" data-inicio="2">No quiero que más nadie me hable de amor</p>
-    <p class="linea" data-inicio="6">Ya me cansé, de esos trucos ya me los sé</p>
-    <p class="linea" data-inicio="10">Esos dolores los pasé, yeah</p>
-    <p class="linea" data-inicio="14">Yo te creía y tú me engañabas</p>
-    <p class="linea" data-inicio="18">Era la nena que a mí me gustaba</p>
-    <p class="linea" data-inicio="22">Tú me dejaste el corazón roto</p>
-    <p class="linea" data-inicio="26">Y tratas de arreglarlo, lo noto</p>
-    <p class="linea" data-inicio="30">Pero ya es tarde</p>
-    <p class="linea" data-inicio="33">Ya no hay nada que hablar</p>
-    <p class="linea" data-inicio="37">Y tú lo sabes</p>
-    <p class="linea" data-inicio="41">Yo fui bueno y tú qué hiciste</p>
-    <p class="linea" data-inicio="45">Me partiste en dos</p>
-    <!-- Puedes seguir agregando más líneas y tiempos -->
+  <div id="container">
+    <div id="mensaje">Haz clic para comenzar 🎵</div>
+    <div id="letra">
+      <p>Y ahora otro ocupa mi lugar</p>
+      <p>Otro duerme junto a ti</p>
+      <p>Es difícil de aceptar</p>
+      <p>Que ya todo terminó</p>
+      <p>Que lo nuestro se acabó</p>
+      <p>Y es inútil seguir</p>
+      <p>Tratando de buscar</p>
+      <p>Una excusa pa' evitar</p>
+      <p>Que ya no me quieres ver</p>
+      <p>Y que ya no va a volver</p>
+      <p>Lo que sentías por mí</p>
+      <p>Y que ya no soy ese en tu vida</p>
+      <p>Y aunque duela aceptarlo</p>
+      <p>No puedo obligarte a quedarte aquí</p>
+      <p>Yo te fallé y lo sabes</p>
+      <p>Y aunque me levante, me caigo otra vez</p>
+      <p>Y me arropa el dolor</p>
+      <p>De perder tu amor</p>
+      <p>Y me arropa el dolor</p>
+      <p>De perder tu amor</p>
+    </div>
   </div>
 
   <audio id="audio" src="amorfoda.mp3"></audio>
 
   <script>
     let iniciado = false;
-
     function iniciar() {
       if (iniciado) return;
       iniciado = true;
 
-      const audio = document.getElementById("audio");
-      const mensaje = document.getElementById("mensaje");
-      mensaje.style.display = "none";
-      audio.play();
-
-      const lineas = document.querySelectorAll(".linea");
-
-      function sincronizarLetra() {
-        const tiempo = audio.currentTime;
-        lineas.forEach((linea, i) => {
-          const inicio = parseFloat(linea.dataset.inicio);
-          const siguienteInicio = i + 1 < lineas.length
-            ? parseFloat(lineas[i + 1].dataset.inicio)
-            : Infinity;
-
-          if (tiempo >= inicio && tiempo < siguienteInicio) {
-            linea.classList.add("activa");
-          } else {
-            linea.classList.remove("activa");
-          }
-        });
-        requestAnimationFrame(sincronizarLetra);
-      }
-
-      sincronizarLetra();
+      document.getElementById("audio").play();
+      document.getElementById("mensaje").style.display = "none";
     }
   </script>
 </body>
